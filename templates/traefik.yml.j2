@@ -1,0 +1,40 @@
+entryPoints:
+  {{ traefik_entrypoints | to_nice_yaml(sort_keys=false) | indent(2) }}
+
+providers:
+  swarm:
+    exposedByDefault: "{{ traefik_expose_by_default }}"
+    network: "{{ traefik_network_internal }}"
+  file:
+    filename: "/etc/traefik/dynamic.yml"
+    watch: true
+
+api:
+  dashboard: {{ traefik_dashboard_enable }}
+  insecure: {{ traefik_api_insecure }}
+
+{% if traefik_letsencrypt_enable %}
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "{{ traefik_letsencrypt_email }}"
+      storage: "/data/acme.json"
+      caServer: "{{ traefik_letsencrypt_ca }}"
+      dnsChallenge:
+        provider: {{ traefik_letsencrypt_provider }}
+{% endif %}
+
+{% if traefik_access_log_enable %}
+accessLog: {}
+{% endif %}
+
+{% if traefik_metrics_enable %}
+metrics:
+  prometheus: {}
+{% endif %}
+
+log:
+  level: "{{ traefik_log_level }}"
+  format: "{{ traefik_log_format }}"
+
+ping: {}

@@ -1,0 +1,50 @@
+http:
+  routers:
+    {% if traefik_routers -%}
+      {{ traefik_routers | to_nice_yaml(sort_keys=false) | indent(2) }}
+    {% endif -%}
+    {% if traefik_dashboard_enable -%}
+    dashboard:
+      rule: "Host(`{{ traefik_dashboard_host }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      entryPoints:
+        - web
+        - websecure
+      service: api@internal
+      middlewares:
+        - traefik-dashboard-auth
+      {% if traefik_letsencrypt_enable -%}
+      tls:
+        certResolver: letsencrypt
+      {% endif -%}
+    {% endif %}
+
+    noop:
+      rule: "Host(`noop.localhost`)"
+      service: noop@internal
+      priority: 1
+
+  middlewares:
+    {% if traefik_middlewares -%}
+      {{ traefik_middlewares | to_nice_yaml(sort_keys=false) | indent(2) }}
+    {% endif -%}
+    {% if traefik_dashboard_enable  -%}
+    traefik-dashboard-auth:
+      {% if traefik_dashboard_basicauth_users -%}
+      basicAuth:
+        users:
+        {% for user in traefik_dashboard_basicauth_users -%}
+          - "{{ user }}"
+        {% endfor -%}
+      {% else -%}
+      ipWhiteList:
+        sourceRange:
+          - "127.0.0.1/32"
+          - "{{ traefik_dashboard_allowed_ips }}"
+      {% endif -%}
+    {% endif %}
+
+  services:
+    {% if traefik_services -%}
+      {{ traefik_services | to_nice_yaml(sort_keys=false) | indent(2) }}
+    {% endif -%}
+

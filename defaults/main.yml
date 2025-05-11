@@ -1,0 +1,91 @@
+---
+# Container configuration
+traefik_version: "latest"
+traefik_image: "traefik:{{ traefik_version }}"
+traefik_container_name: "traefik"
+
+# Path configuration
+traefik_config_path: /etc/traefik
+traefik_data_path: /var/lib/traefik
+traefik_network_internal: swarm_net
+traefik_network_public: "traefik-public"
+traefik_expose_by_default: false
+traefik_api_insecure: false
+
+# Entry points configuration
+traefik_entrypoints:
+  web:
+    address: ":80"
+    http:
+      forwardedHeaders:
+        trustedIPs: "{{ traefik_trusted_ips }}"
+      redirections:
+        entryPoint:
+          to: "websecure"
+          scheme: "https"
+          permanent: true
+  websecure:
+    address: ":443"
+    as_default: true
+    http:
+      forwardedHeaders:
+        trustedIPs: "{{ traefik_trusted_ips }}"
+  traefik:
+    address: ":8080"
+
+traefik_published_ports:
+  - mode: host
+    protocol: tcp
+    published_port: 80
+    target_port: 80
+  - mode: host
+    protocol: tcp
+    published_port: 443
+    target_port: 443
+  - mode: host
+    protocol: tcp
+    published_port: 8080
+    target_port: 8080
+
+# IPs to trust for forwarded headers
+traefik_trusted_ips:
+  - "127.0.0.1/32"
+  - "192.168.1.0/24"
+
+# Let's Encrypt configuration
+traefik_letsencrypt_enable: true
+traefik_letsencrypt_email: "admin@example.com"
+traefik_letsencrypt_ca: "https://acme-v02.api.letsencrypt.org/directory"
+traefik_letsencrypt_provider: "cloudflare"
+# Dashboard configuration
+traefik_dashboard_enable: true
+traefik_dashboard_host: "traefik.localhost"
+traefik_dashboard_allowed_ips: "192.168.0.0/16"
+# List of user:hashed-password format strings for basic auth
+# Generate with: htpasswd -nb user password
+traefik_dashboard_basicauth_users: []
+
+# Observability configuration
+traefik_access_log_enable: true
+traefik_metrics_enable: true
+traefik_metrics_port: 8082
+
+# Docker labels to apply to the traefik container
+traefik_docker_labels: {}
+
+# Additional environment variables for the traefik container
+traefik_environment: {}
+
+traefik_log_level: "INFO"
+traefik_log_format: "json"
+
+# Resource limits
+traefik_memory_request: "128M"
+traefik_memory_limit: "256M"
+traefik_cpu_limit: 0.1
+traefik_cpu_request: 0.5
+
+# Traefik dynamic configuration
+traefik_routers: {}
+traefik_services: {}
+traefik_middlewares: {}

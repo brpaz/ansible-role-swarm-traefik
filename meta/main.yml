@@ -1,0 +1,28 @@
+galaxy_info:
+  role_name: swarm_traefik
+  namespace: brpaz
+  author: Bruno Paz
+  description: An Ansible role to deploy and configure Traefik in a Docker Swarm cluster.
+  license: MIT
+  min_ansible_version: "2.10"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+
+  galaxy_tags:
+    - docker
+    - swarm
+    - traefik
+    - reverseproxy
+    - loadbalancer
+
+collections:
+  - community.docker

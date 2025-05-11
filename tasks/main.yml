@@ -1,0 +1,100 @@
+---
+- name: Create config and data directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0750"
+    owner: root
+    group: root
+  loop:
+    - "{{ traefik_config_path }}"
+    - "{{ traefik_data_path }}"
+
+- name: Write static config
+  ansible.builtin.template:
+    src: traefik.yml.j2
+    dest: "{{ traefik_config_path }}/traefik.yml"
+    mode: "0640"
+    owner: root
+    group: root
+  become: true
+
+- name: Write dynamic config
+  ansible.builtin.template:
+    src: dynamic.yml.j2
+    dest: "{{ traefik_config_path }}/dynamic.yml"
+    mode: "0640"
+    owner: root
+    group: root
+  become: true
+
+- name: Create empty acme.json file if not exists
+  ansible.builtin.file:
+    path: "{{ traefik_data_path }}/acme.json"
+    state: touch
+    mode: "0600"
+    owner: root
+    group: root
+  when: traefik_letsencrypt_enable | bool
+
+- name: Create Traefik public network
+  community.docker.docker_network:
+    name: "{{ traefik_network_public }}"
+    state: present
+    driver: overlay
+
+- name: Deploy Traefik service
+  community.docker.docker_swarm_service:
+    name: "{{ traefik_container_name }}"
+    image: "{{ traefik_image }}"
+    state: present
+    mounts:
+      - source: "{{ traefik_config_path }}/traefik.yml"
+        target: "/etc/traefik/traefik.yml"
+        type: bind
+        readonly: true
+      - source: "{{ traefik_config_path }}/dynamic.yml"
+        target: "/etc/traefik/dynamic.yml"
+        type: bind
+        readonly: true
+      - source: "{{ traefik_data_path }}"
+        target: "/data"
+        type: bind
+      - source: "/var/run/docker.sock"
+        target: "/var/run/docker.sock"
+        type: bind
+        readonly: true
+    networks:
+      - name: "{{ traefik_network_public }}"
+      - name: "{{ traefik_network_internal }}"
+    env: "{{ traefik_environment }}"
+    publish: "{{ traefik_published_ports }}"
+    placement:
+      constraints:
+        - node.role == manager
+    reservations:
+      memory: "{{ traefik_memory_request }}"
+      cpus: "{{ traefik_cpu_request }}"
+    limits:
+      memory: "{{ traefik_memory_limit }}"
+      cpus: "{{ traefik_cpu_limit }}"
+    labels: "{{ traefik_docker_labels }}"
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 5s
+      timeout: 2s
+      start_period: 10s
+      retries: 5
+    restart_config:
+      condition: on-failure
+      delay: 10s
+      max_attempts: 5
+      window: 60s
+
+- name: Wait for Traefik service to be in healthy state
+  ansible.builtin.command: docker ps --filter "name=traefik" --format {% raw %}"{{.Status}}"{% endraw %}
+  register: container_status
+  until: "'healthy' in container_status.stdout"
+  retries: 10
+  delay: 5
+  changed_when: false
