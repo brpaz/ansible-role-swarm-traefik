@@ -59,6 +59,8 @@ traefik_letsencrypt_ca: "https://acme-v02.api.letsencrypt.org/directory"
 traefik_letsencrypt_provider: "cloudflare"
 # Dashboard configuration
 traefik_dashboard_enable: true
+traefik_dashboard_api_insecure: true
+traefik_dashboard_expose: false
 traefik_dashboard_host: "traefik.localhost"
 traefik_dashboard_allowed_ips: "192.168.0.0/16"
 # List of user:hashed-password format strings for basic auth
