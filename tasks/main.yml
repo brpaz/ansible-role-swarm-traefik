@@ -36,6 +36,7 @@
     mode: "0600"
     owner: root
     group: root
+  become: true
   when: traefik_letsencrypt_enable | bool
 
 - name: Create Traefik public network
