@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v0.2.3 - 2025-05-31
+
+### What's Changed
+
+#### ⚠️ Maintenance
+
+- fix: change restart config @brpaz (#8)
+  **Full Changelog**: [https://github.com/brpaz/ansible-role-swarm_traefik/compare/v0.2.2...v0.2.3](https://github.com/brpaz/ansible-role-swarm_traefik/compare/v0.2.2...v0.2.3)
+
 ## v0.2.2 - 2025-05-31
 
 ### What's Changed
