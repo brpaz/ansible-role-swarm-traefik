@@ -53,42 +53,43 @@ git clone https://github.com/brpaz/ansible-role-swarm-traefik.git ~/.ansible/rol
 
 This role includes the following variables for configuration:
 
-| Variable                            | Default Value                   | Description                              |
-| ----------------------------------- | ------------------------------- | ---------------------------------------- |
-| `traefik_version`                   | `latest`                        | Traefik version to use                   |
-| `traefik_image`                     | `traefik:{{ traefik_version }}` | Traefik Docker image                     |
-| `traefik_container_name`            | `traefik`                       | Name of the Traefik container            |
-| `traefik_config_path`               | `/etc/traefik`                  | Local directory for configs              |
-| `traefik_data_path`                 | `/var/lib/traefik`              | Local directory for Traefik data         |
-| `traefik_network_internal`          | `swarm_net`                     | Internal Docker Swarm network name       |
-| `traefik_network_public`            | `traefik-public`                | Public Docker Swarm network name         |
-| `traefik_expose_by_default`         | `false`                         | Whether services are exposed by default  |
-| `traefik_api_insecure`              | `false`                         | Whether the API is exposed insecurely    |
-| `traefik_entrypoints`               | See defaults/main.yml           | Entry points configuration               |
-| `traefik_published_ports`           | See defaults/main.yml           | Ports to publish (80, 443, 8080)         |
-| `traefik_trusted_ips`               | `127.0.0.1/32, 192.168.1.0/24`  | IPs to trust for forwarded headers       |
-| `traefik_letsencrypt_enable`        | `true`                          | Whether to enable Let's Encrypt          |
-| `traefik_letsencrypt_email`         | `admin@example.com`             | Email for Let's Encrypt registration     |
-| `traefik_letsencrypt_ca`            | Let's Encrypt production server | Certificate Authority server URL         |
-| `traefik_letsencrypt_provider`      | `cloudflare`                    | DNS challenge provider                   |
-| `traefik_dashboard_enable`          | `true`                          | Whether to enable the dashboard          |
-| `traefik_dashboard_host`            | `traefik.localhost`             | Host for the dashboard                   |
-| `traefik_dashboard_allowed_ips`     | `192.168.0.0/16`                | IPs allowed to access dashboard          |
-| `traefik_dashboard_basicauth_users` | `[]`                            | Basic auth users for dashboard           |
-| `traefik_access_log_enable`         | `true`                          | Whether to enable access logs            |
-| `traefik_metrics_enable`            | `true`                          | Whether to enable Prometheus metrics     |
-| `traefik_metrics_port`              | `8082`                          | Port for metrics endpoint                |
-| `traefik_docker_labels`             | `{}`                            | Additional Docker labels                 |
-| `traefik_environment`               | `{}`                            | Additional environment variables         |
-| `traefik_log_level`                 | `INFO`                          | Log level (DEBUG, INFO, WARN, ERROR)     |
-| `traefik_log_format`                | `json`                          | Log format (common, json, logfmt)        |
-| `traefik_memory_request`            | `128M`                          | Memory request for the container         |
-| `traefik_memory_limit`              | `256M`                          | Memory limit for the container           |
-| `traefik_cpu_request`               | `0.1`                           | CPU request for the container            |
-| `traefik_cpu_limit`                 | `0.5`                           | CPU limit for the container              |
-| `traefik_routers`                   | `{}`                            | Custom Traefik routers configuration     |
-| `traefik_services`                  | `{}`                            | Custom Traefik services configuration    |
-| `traefik_middlewares`               | `{}`                            | Custom Traefik middlewares configuration |
+| Variable                            | Default Value                   | Description                                |
+| ----------------------------------- | ------------------------------- | ------------------------------------------ |
+| `traefik_version`                   | `latest`                        | Traefik version to use                     |
+| `traefik_image`                     | `traefik:{{ traefik_version }}` | Traefik Docker image                       |
+| `traefik_container_name`            | `traefik`                       | Name of the Traefik container              |
+| `traefik_config_path`               | `/etc/traefik`                  | Local directory for configs                |
+| `traefik_data_path`                 | `/var/lib/traefik`              | Local directory for Traefik data           |
+| `traefik_network_internal`          | `swarm_net`                     | Internal Docker Swarm network name         |
+| `traefik_network_public`            | `traefik-public`                | Public Docker Swarm network name           |
+| `traefik_expose_by_default`         | `false`                         | Whether services are exposed by default    |
+| `traefik_api_insecure`              | `false`                         | Whether the API is exposed insecurely      |
+| `traefik_entrypoints`               | See defaults/main.yml           | Entry points configuration                 |
+| `traefik_published_ports`           | See defaults/main.yml           | Ports to publish (80, 443, 8080)           |
+| `traefik_trusted_ips`               | `127.0.0.1/32, 192.168.1.0/24`  | IPs to trust for forwarded headers         |
+| `traefik_letsencrypt_enable`        | `true`                          | Whether to enable Let's Encrypt            |
+| `traefik_letsencrypt_email`         | `admin@example.com`             | Email for Let's Encrypt registration       |
+| `traefik_letsencrypt_ca`            | Let's Encrypt production server | Certificate Authority server URL           |
+| `traefik_letsencrypt_provider`      | `cloudflare`                    | DNS challenge provider                     |
+| `traefik_dashboard_enable`          | `true`                          | Whether to enable the dashboard            |
+| `traefik_dashboard_expose`          | `false`                         | Whether to expose the dashboard externally |
+| `traefik_dashboard_host`            | `traefik.localhost`             | Host for the dashboard                     |
+| `traefik_dashboard_allowed_ips`     | `192.168.0.0/16`                | IPs allowed to access dashboard            |
+| `traefik_dashboard_basicauth_users` | `[]`                            | Basic auth users for dashboard             |
+| `traefik_access_log_enable`         | `true`                          | Whether to enable access logs              |
+| `traefik_metrics_enable`            | `true`                          | Whether to enable Prometheus metrics       |
+| `traefik_metrics_port`              | `8082`                          | Port for metrics endpoint                  |
+| `traefik_docker_labels`             | `{}`                            | Additional Docker labels                   |
+| `traefik_environment`               | `{}`                            | Additional environment variables           |
+| `traefik_log_level`                 | `INFO`                          | Log level (DEBUG, INFO, WARN, ERROR)       |
+| `traefik_log_format`                | `json`                          | Log format (common, json, logfmt)          |
+| `traefik_memory_request`            | `128M`                          | Memory request for the container           |
+| `traefik_memory_limit`              | `256M`                          | Memory limit for the container             |
+| `traefik_cpu_request`               | `0.1`                           | CPU request for the container              |
+| `traefik_cpu_limit`                 | `0.5`                           | CPU limit for the container                |
+| `traefik_routers`                   | `{}`                            | Custom Traefik routers configuration       |
+| `traefik_services`                  | `{}`                            | Custom Traefik services configuration      |
+| `traefik_middlewares`               | `{}`                            | Custom Traefik middlewares configuration   |
 
 ## Traefik Configuration
 
@@ -118,7 +119,64 @@ traefik_entrypoints:
     address: ":8080"
 ```
 
-You can customize or add your own entrypoints. The contents of this variable follows the exact some structure of [Traefik Entrypoints](https://doc.traefik.io/traefik/routing/entrypoints/) configuration.
+You can customize or add your own entrypoints. The contents of this variable follows the exact same structure of [Traefik Entrypoints](https://doc.traefik.io/traefik/routing/entrypoints/) configuration.
+
+Here's how to add a new entrypoint for a TCP database service while keeping all the default entrypoints:
+
+```yaml
+# playbook.yml
+- hosts: traefik_servers
+  vars:
+    # Keep all default settings
+    traefik_version: "v2.10.4"
+    # Add a new entrypoint for a database service
+    traefik_entrypoints: "{{ traefik_entrypoints | combine({
+      'postgres': {
+        'address': ':5432',
+        'tcp': {}
+      }
+    }) }}"
+    # Add the new port to published ports
+    traefik_published_ports: "{{ traefik_published_ports + [{
+      'mode': 'host',
+      'protocol': 'tcp',
+      'published_port': 5432,
+      'target_port': 5432
+    }] }}"
+  roles:
+    - brpaz.swarm_traefik
+```
+
+The above example:
+1. Keeps all the default entrypoints (web, websecure, traefik) untouched
+2. Adds a new TCP entrypoint for PostgreSQL
+3. Adds the corresponding port to the published ports list
+4. Uses Ansible's `combine` filter to merge with defaults
+5. Uses the `+` operator to append to the default ports list
+
+You could also use this approach to add an HTTP service on a custom port:
+
+```yaml
+# Add a custom HTTP service on port 3000
+traefik_entrypoints: "{{ traefik_entrypoints | combine({
+  'nodeapp': {
+    'address': ':3000',
+    'http': {
+      'forwardedHeaders': {
+        'trustedIPs': traefik_trusted_ips
+      }
+    }
+  }
+}) }}"
+traefik_published_ports: "{{ traefik_published_ports + [{
+  'mode': 'host',
+  'protocol': 'tcp',
+  'published_port': 3000,
+  'target_port': 3000
+}] }}"
+```
+
+This pattern ensures that you don't have to redefine the default configuration when adding new entrypoints.
 
 You can customize the trusted IPs for forwarded headers:
 
@@ -165,6 +223,7 @@ Note that if you are using a provider like Cloudflare, you will need to provide 
 
 ```yaml
 traefik_dashboard_enable: true
+traefik_dashboard_expose: true  # Whether to expose the dashboard externally
 traefik_dashboard_host: "traefik.localhost"
 traefik_dashboard_allowed_ips: "192.168.0.0/16"
 traefik_dashboard_basicauth_users:
@@ -172,7 +231,7 @@ traefik_dashboard_basicauth_users:
   - "user:$apr1$hashed_password"
 ```
 
-When enabled, the dashboard is automatically configured with either IP whitelist or basic authentication security.
+When enabled and exposed, the dashboard is automatically configured with either IP whitelist or basic authentication security. If `traefik_dashboard_expose` is set to `false`, the dashboard will only be available internally and won't be exposed through Traefik's routing.
 
 ### Observability Configuration
 

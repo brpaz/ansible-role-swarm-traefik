@@ -3,7 +3,7 @@ http:
     {% if traefik_routers -%}
       {{ traefik_routers | to_nice_yaml(sort_keys=false) | indent(2) }}
     {% endif -%}
-    {% if traefik_dashboard_enable -%}
+    {% if traefik_dashboard_expose -%}
     dashboard:
       rule: "Host(`{{ traefik_dashboard_host }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       entryPoints:
@@ -27,7 +27,7 @@ http:
     {% if traefik_middlewares -%}
       {{ traefik_middlewares | to_nice_yaml(sort_keys=false) | indent(2) }}
     {% endif -%}
-    {% if traefik_dashboard_enable  -%}
+    {% if traefik_dashboard_expose -%}
     traefik-dashboard-auth:
       {% if traefik_dashboard_basicauth_users -%}
       basicAuth:
