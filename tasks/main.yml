@@ -9,6 +9,7 @@
   loop:
     - "{{ traefik_config_path }}"
     - "{{ traefik_data_path }}"
+  become: true
 
 - name: Write static config
   ansible.builtin.template:
