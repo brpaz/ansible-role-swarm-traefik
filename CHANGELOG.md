@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v0.2.2 - 2025-05-31
+
+### What's Changed
+
+#### 🐛 Bug Fixes
+
+- fix: wrong entrypoints config @brpaz (#7)
+  **Full Changelog**: [https://github.com/brpaz/ansible-role-swarm_traefik/compare/v0.2.1...v0.2.2](https://github.com/brpaz/ansible-role-swarm_traefik/compare/v0.2.1...v0.2.2)
+
 ## v0.2.1 - 2025-05-31
 
 ### What's Changed
