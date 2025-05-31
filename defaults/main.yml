@@ -16,9 +16,9 @@ traefik_api_insecure: false
 traefik_entrypoints:
   web:
     address: ":80"
+    forwardedHeaders:
+      trustedIPs: "{{ traefik_trusted_ips }}"
     http:
-      forwardedHeaders:
-        trustedIPs: "{{ traefik_trusted_ips }}"
       redirections:
         entryPoint:
           to: "websecure"
@@ -26,10 +26,10 @@ traefik_entrypoints:
           permanent: true
   websecure:
     address: ":443"
-    as_default: true
-    http:
-      forwardedHeaders:
-        trustedIPs: "{{ traefik_trusted_ips }}"
+    asDefault: true
+    forwardedHeaders:
+      trustedIPs: "{{ traefik_trusted_ips }}"
+
   traefik:
     address: ":8080"
 
