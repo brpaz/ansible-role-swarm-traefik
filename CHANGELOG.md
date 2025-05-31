@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v0.2.0 - 2025-05-31
+
+### What's Changed
+
+#### 🚀 Features
+
+- feat: only create dashboard routes when exposing the dashboard via Tr… @brpaz (#5)
+  **Full Changelog**: [https://github.com/brpaz/ansible-role-swarm_traefik/compare/v0.1.1...v0.2.0](https://github.com/brpaz/ansible-role-swarm_traefik/compare/v0.1.1...v0.2.0)
+
 ## v0.1.1 - 2025-05-31
 
 ### What's Changed
