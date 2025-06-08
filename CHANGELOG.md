@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v0.3.0 - 2025-06-08
+
+### What's Changed
+
+#### 🚀 Features
+
+- feat: update healthcheck and resources configs @brpaz (#10)
+
+#### 🧩 Dependency Updates
+
+- chore(deps): update dependency pytest to ~=8.4.0 @[renovate[bot]](https://github.com/apps/renovate) (#9)
+  **Full Changelog**: [https://github.com/brpaz/ansible-role-swarm_traefik/compare/v0.2.3...v0.3.0](https://github.com/brpaz/ansible-role-swarm_traefik/compare/v0.2.3...v0.3.0)
+
 ## v0.2.3 - 2025-05-31
 
 ### What's Changed
