@@ -83,10 +83,10 @@
     labels: "{{ traefik_docker_labels }}"
     healthcheck:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
-      interval: 5s
-      timeout: 2s
+      interval: 30s
+      timeout: 5s
       start_period: 10s
-      retries: 5
+      retries: 3
     restart_config:
       condition: any
       delay: 10s

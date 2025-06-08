@@ -83,9 +83,9 @@ traefik_log_format: "json"
 
 # Resource limits
 traefik_memory_request: "128M"
-traefik_memory_limit: "256M"
-traefik_cpu_limit: 0.1
-traefik_cpu_request: 0.5
+traefik_memory_limit: "512M"
+traefik_cpu_limit: 1.0
+traefik_cpu_request: 0.1
 
 # Traefik dynamic configuration
 traefik_routers: {}
